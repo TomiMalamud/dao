@@ -1,3 +1,5 @@
+# Sugiero no usar librerías como re. Son difíciles de interpretar y strip() es más que suficiente.
+
 def clean_word(word):
     # Elimina caracteres de puntuación al principio y al final
     word = word.strip(".,;:!?\"'()[]{}*-#")
@@ -5,10 +7,10 @@ def clean_word(word):
     # Convierte a minúscula
     word = word.lower()
     
-    return word if word.isalpha() else ""
+    return word if word.isalpha() else "" # Si no es alfabético, se elimina. Evita que se cuenten números como palabras.
 
 with open('Material Practicos/quijote.txt', 'r') as file:
-    words_quijote = set(map(str, file.read().split()))
+    words_quijote = set(map(str, file.read().split())) # Mejor implementación que con readlines().
 
 with open('Material Practicos/words_alpha.txt', 'r') as file:
     words_alpha = set(map(str, file.read().split()))    
@@ -20,7 +22,7 @@ words_quijote_clean = set(clean_word(word) for word in words_quijote if clean_wo
 
 words_alpha_clean = set(clean_word(word) for word in words_alpha if clean_word(word))
 
-# Cantidad de palabras del libro que no existen en el diccionario
+# Palabras del libro que no existen en el diccionario
 words_not_in_alpha = words_quijote_clean - words_alpha_clean
 
 print(f"Cantidad de palabras en Quijote que no aparecen en el diccionario: {len(words_not_in_alpha)}")
